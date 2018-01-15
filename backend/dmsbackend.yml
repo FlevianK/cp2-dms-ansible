@@ -1,0 +1,119 @@
+---
+- hosts: dmsbackend
+  tasks:
+  - name: Install dependancies
+    apt: 
+      name: "{{ item }}"
+      state: present
+    with_items:
+    - npm
+    - postgresql
+    - python-psycopg2
+    become: yes
+    become_user: root
+
+  - name: Install nodejs
+    shell: |
+      curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+      sudo apt-get install -y nodejs
+    args:
+      executable: /bin/bash
+    become: yes
+    become_user: root
+
+  - name: start postgresql 
+    service:
+      name: "{{ item }}"
+      state: started
+      enabled: true
+    with_items:
+    - postgresql
+    become: yes
+    become_user: postgres
+
+  - name: Copy Postgres configurations
+    template: src=templates/pg_hba.conf dest=/etc/postgresql/9.3/main/pg_hba.conf
+    notify:
+      - Restart postgres
+    become: yes
+    become_user: postgres
+
+  - name: Create app folder
+    file:
+      path: appp/
+      state: directory
+      mode: 0755
+      owner: vagrant
+      group: vagrant
+    become: yes
+    become_user: root
+
+  - name: Clone the dms app from github
+    git:
+      repo: https://github.com/FlevianK/cp2-document-management-system.git
+      dest: appp/
+      force: yes
+    become: yes
+    become_user: vagrant
+
+  - name: Install React dependancies
+    shell: |
+      npm install
+    args:
+      chdir: /home/vagrant/appp/
+      executable: /bin/bash
+    become: yes
+    become_user: vagrant
+
+  - name: Install nodemon
+    shell: |
+      npm install -g nodemon
+    args:
+      chdir: /home/vagrant/appp/
+      executable: /bin/bash
+    become: yes
+    become_user: root
+
+  - name: Create Postgres DB
+    postgresql_db:
+      name: database_development
+      state: present
+      login_user: postgres
+      login_password: pass
+    become: yes
+    become_user: postgres
+
+  - name: Grant user postgres access to database
+    postgresql_user:
+      db: database_development
+      name: postgres
+      password: pass
+      priv: ALL
+      login_user: postgres
+      login_password: pass
+    become: yes
+    become_user: postgres
+
+  - name: Run migrations
+    shell: | 
+      npm run migrate
+    args:
+      chdir: appp/
+      executable: /bin/bash
+    notify:
+      - Restart postgres
+    become: yes
+    become_user: vagrant
+
+  - name: Up the app
+    shell: |
+      nodemon app.js
+    args:
+      chdir: /home/vagrant/appp/
+      executable: /bin/bash
+    become: yes
+    become_user: vagrant
+
+  handlers:
+    - name: Restart postgres
+      service: name=postgresql state=restarted

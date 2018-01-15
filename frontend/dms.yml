@@ -1,0 +1,56 @@
+---
+- hosts: dms
+  tasks:
+  - name: Install dependancies
+    apt: 
+      name: "{{ item }}"
+      state: present
+    with_items:
+    - npm
+    become: yes
+    become_user: root
+
+  - name: Install nodejs
+    shell: |
+      curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+      sudo apt-get install -y nodejs
+    args:
+      executable: /bin/bash
+    become: yes
+    become_user: root
+
+  - name: Create app folder
+    file:
+      path: app/
+      state: directory
+      mode: 0755
+      owner: vagrant
+      group: vagrant
+    become: yes
+    become_user: root
+
+  - name: Clone the dms app from github
+    git:
+      repo: https://github.com/FlevianK/cp2-document-management-system.git
+      dest: app/
+      force: yes
+    become: yes
+    become_user: vagrant
+
+  - name: Install React dependancies
+    shell: |
+      npm install
+    args:
+      chdir: /home/vagrant/app/
+      executable: /bin/bash
+    become: yes
+    become_user: vagrant
+
+  - name: Up the app
+    shell: |
+      npm start
+    args:
+      chdir: /home/vagrant/app/
+      executable: /bin/bash
+    become: yes
+    become_user: vagrant
