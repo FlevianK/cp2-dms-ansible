@@ -7,8 +7,8 @@ Simple deployment scripts.
 Ensure you have Ansible and Virtualbox installed.
 
 ## Installing
-> Open to tab/window on your terminal
-> Clone this repository
+* Open to tab/window on your terminal
+* Clone this repository
 
 ## To deploy fronted
 > Navigate to the fronted folder of the system on your terminal and perform the following operations:
