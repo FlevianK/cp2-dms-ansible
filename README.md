@@ -57,4 +57,4 @@ $ vagrant destroy
 ## Note
 > If frontend is deployed, the application will use the backend hosted on Heroku. It will access the local backend if in case the backend on heroku fails to opperate correctly.
 # Author
-* Flevian Kanaiza
+*** Flevian Kanaiza ***
