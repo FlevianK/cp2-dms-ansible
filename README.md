@@ -8,7 +8,7 @@ Ensure you have Ansible and Virtualbox installed.
 
 ## Installing
 * Open to tab/window on your terminal
-* Clone this repository
+* Clone this repository [here](https://github.com/FlevianK/cp2-dms-ansible.git)
 
 ## To deploy fronted
 > Navigate to the fronted folder of the system on your terminal and perform the following operations:
