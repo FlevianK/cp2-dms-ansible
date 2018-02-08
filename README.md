@@ -21,7 +21,7 @@ $ vagrant up
 
 > Verify the deployment by navigating to your server address in your preferred browser.
 ```sh 
-$ 127.0.0.1:8080
+127.0.0.1:8080
 ```
 ### To drop into the virtual machine
 ```sh
