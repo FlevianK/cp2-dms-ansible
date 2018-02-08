@@ -4,7 +4,7 @@ Simple deployment scripts.
 
 # Procedure for running the system locally
 ## Prerequisites
-Ensure you have Ansible and Virtualbox installed.
+Ensure you have Ansible, Vargant and Virtualbox installed.
 
 ## Installing
 * Open to tab/window on your terminal
@@ -15,7 +15,9 @@ Ensure you have Ansible and Virtualbox installed.
 ```sh
 $ vagrant up
 ```
-
+> When you see the last ansible task `Up the app` on the terminal, it means all is well.
+that is:
+![ansible terminal output](./frontendImages/image5.jpg)
 > Verify the deployment by navigating to your server address in your preferred browser.
 ```sh 
 $ 127.0.0.1:8080
@@ -37,7 +39,8 @@ $ vagrant destroy
 ```sh
 $ vagrant up
 ```
-
+> When you see the last ansible task `Up the app` on the terminal, it means all is well.
+  
 > Verify the deployment by navigating to your server address in your preferred browser.
 ```sh 
 $ 127.0.0.1:8000
