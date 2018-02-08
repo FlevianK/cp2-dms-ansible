@@ -15,9 +15,10 @@ Ensure you have Ansible, Vargant and Virtualbox installed.
 ```sh
 $ vagrant up
 ```
-> When you see the last ansible task `Up the app` on the terminal, it means all is well.
-that is:
-![ansible terminal output](./frontendImages/image5.jpg)
+> When you see the last ansible task `Up the app` on the terminal, it means all is well, that is:
+
+![ansible terminal output](/frontendImages/image5.png)
+
 > Verify the deployment by navigating to your server address in your preferred browser.
 ```sh 
 $ 127.0.0.1:8080
